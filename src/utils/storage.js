@@ -15,7 +15,7 @@ export function setUser(user) {
 }
 
 export function getUser() {
-  getItem("user");
+  return getItem("user");
 }
 
 export function clear() {
