@@ -1,26 +1,34 @@
 import React from "react";
 
-export default function LoginButon() {
+export default function LoginButon({onLogin}) {
   const loginFacebook = () => {
-    if(!window.FB) return;
+    if (!window.FB) return;
 
-    window.FB.getLoginStatus(response => { 
-      if(response.status === "connected") { 
-        loginFacebookHandler(response)
+    window.FB.getLoginStatus((response) => {
+      if (response.status === "connected") {
+        loginFacebookHandler(response);
       } else {
-        window.FB.login(loginFacebookHandler, {scope : 'public_profile, email'})
+        window.FB.login(loginFacebookHandler, {
+          scope: "public_profile, email",
+        });
       }
-    })
+    });
   };
 
-  const loginFacebookHandler = (response) => { 
+  const loginFacebookHandler = (response) => {
     console.log(response);
-    if (response.status === "connected") { 
-      window.FB.api('/me?fields=id,name,email,picture', userData => {
+    if (response.status === "connected") {
+      window.FB.api("/me?fields=id,name,email,picture", (userData) => {
         console.log(userData);
-      })
+        const user = {
+          ...userData,
+          accessToken : response.authResponse.accessToken,
+        }
+
+        onLogin(user)
+      });
     }
-  }
+  };
 
   return (
     <div className="container">
@@ -36,9 +44,7 @@ export default function LoginButon() {
         >
           <button
             type="button"
-            onClick={() => {
-              loginFacebook();
-            }}
+            onClick={loginFacebook}
             className="btn btn-primary"
           >
             Iniciar Sesion Con Facebook
