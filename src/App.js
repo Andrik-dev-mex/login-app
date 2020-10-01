@@ -1,13 +1,22 @@
-import React from 'react';
+import React, {useState}from 'react';
 import Navbar from "./layout/NavBar";
-import './App.css';
 import LoginButon from './components/LoginButton/LoginButton';
 
 function App() {
+
+  const [user, setUser] = useState(null);
+
+  const onLogin = (user) => { 
+    
+    setUser(user)
+  };
+
   return (
-    <div className="App">
+    <div className = "container-fluid">
       <Navbar/>
-      <LoginButon/>
+    <div className="row" style = {{padding: '24px 16px'}}>
+      {!user && <LoginButon onLogin = {onLogin}/>}
+    </div>
     </div>
   );
 }

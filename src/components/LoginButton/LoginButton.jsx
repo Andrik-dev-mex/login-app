@@ -6,7 +6,7 @@ export default function LoginButon() {
 
     window.FB.getLoginStatus(response => { 
       if(response.status === "connected") { 
-        
+        loginFacebookHandler(response)
       } else {
         window.FB.login(loginFacebookHandler, {scope : 'public_profile, email'})
       }
